@@ -43,6 +43,11 @@ sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
+# Post-install
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
 # Install Minikube
 curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
@@ -55,16 +60,20 @@ minikube start
 ### 1. Make Docker image with nginx and python-cgi
 
 ```
-(not ready yet)
 # Dockerfile in ./Dockerfile
 ```
 
-### 2. Deploy to minikube
+### 2. Deploy to minikube (gke)
 
 ```
-(not ready yet)
-kubectl create deployment myapp --image=olegan/fortune:ver2
-kubectl expose deployment --type=LoadBalancer --port=80
+# Use my gcp free-tier gke cluster, create default cluster
+gcloud container clusters create cluster k1
+gcloud container clusters get-credentials k1
+
+# Deploy and expose fortune-app
+# Make deployment and service in ./k8s/*.yaml files
+kubectl apply -f ./k8s/deploy.yaml
+kubectl apply -f ./k8s/svc.yaml
 ```
 
 --------------------------------------------------
