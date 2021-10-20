@@ -61,12 +61,13 @@ minikube start
 
 ```
 # Dockerfile in ./Dockerfile
+# After push to my docker hub account olegan/fotune-app:tagname
 ```
 
-### 2. Deploy to minikube (gke)
+### 2. Deploy to minikube (GKE)
 
 ```
-# Use my gcp free-tier gke cluster, create default cluster
+# Use my gcp free-tier gke cluster instead minikube, create default cluster
 gcloud container clusters create cluster k1
 gcloud container clusters get-credentials k1
 
