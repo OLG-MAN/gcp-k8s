@@ -77,4 +77,20 @@ kubectl apply -f ./k8s/deploy.yaml
 kubectl apply -f ./k8s/svc.yaml
 ```
 
+### 3. Deploy to test environment
+
+```
+# Use test environment from mentor
+# Copy .kube/config to local machine to connect to cluster
+# Create namespace for deployment
+kubectl create namespace oleg
+
+# Apply app deployment, service and ingress in cluster namespace
+kubectl -n oleg apply -f ./k8s/deploy.yaml
+kubectl -n oleg apply -f ./k8s/svc-cl-ip.yaml
+kubectl -n oleg apply -f ./k8s/ingress.yaml
+
+# Check dns name for app 
+```
+
 --------------------------------------------------

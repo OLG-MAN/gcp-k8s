@@ -25,4 +25,3 @@ RUN service nginx restart
 
 # Run nginx container
 CMD /etc/init.d/fcgiwrap start && nginx -g 'daemon off;'
- 
