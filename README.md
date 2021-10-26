@@ -4,11 +4,12 @@
 
 ## Minikube
 
-* Create a kubernetes deployment and service with the 'fortune' program 
-* Docker image: https://hub.docker.com/r/perarneng/fortune/ 
-* Make this deployment accessible as a service from within the cluster
+* Create a kubernetes pod/deployment and service with the 'fortune' app.
+* Make cgi app based on 'fortune' program.
+* Make Docker image from 'fortune' app.
+* Make this deployment accessible as a service from within the cluster.
 * A different fortune should show every time the service is called. 
-* Use local Minikube
+* Use local Minikube.
 
 --------------------------------------
 
@@ -64,9 +65,20 @@ minikube start
 # After push to my docker hub account olegan/fotune-app:tagname
 ```
 
-### 2. Deploy to minikube (GKE)
+### 2. Deploy to Minikube/GKE
 
 ```
+# Use local minikube
+# Apply app Deployment and LoadBalancer service
+kubectl apply -f ./k8s/deploy.yaml
+kubectl apply -f ./k8s/svc-lb.yaml
+
+# Make service type LoadBalancer accesible in Minikube
+# Check app
+minikube service <SERVICE-NAME>
+curl <IP-ADDRESS>:<PORT>
+
+
 # Use my gcp free-tier gke cluster instead minikube, create default cluster
 gcloud container clusters create cluster k1
 gcloud container clusters get-credentials k1
@@ -74,10 +86,24 @@ gcloud container clusters get-credentials k1
 # Deploy and expose fortune-app
 # Make deployment and service in ./k8s/*.yaml files
 kubectl apply -f ./k8s/deploy.yaml
-kubectl apply -f ./k8s/svc.yaml
+kubectl apply -f ./k8s/svc-lb.yaml
 ```
 
-### 3. Deploy to test environment
+## Task 2
+
+## K8s cluster
+
+* Create a kubernetes deployment, service and ingress with the 'fortune' app.
+* Use 'fortune' app Docker image from task 1.
+* Make this deployment accessible from internet.
+* Add DNS name to ingress.
+* Use test environment (K8s cluster) from mentor.
+
+----------------------------------------------------
+
+## Solution
+
+### 1. Deploy to test environment
 
 ```
 # Use test environment from mentor
@@ -90,7 +116,8 @@ kubectl -n oleg apply -f ./k8s/deploy.yaml
 kubectl -n oleg apply -f ./k8s/svc-cl-ip.yaml
 kubectl -n oleg apply -f ./k8s/ingress.yaml
 
-# Check dns name for app 
+# Check app via DNS name in ingress 
+kubectl -n oleg get ingress
 ```
 
 --------------------------------------------------
