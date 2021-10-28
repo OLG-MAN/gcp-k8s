@@ -91,13 +91,13 @@ kubectl apply -f ./k8s/svc-lb.yaml
 
 ## Task 2
 
-## K8s cluster
+## K8s/K3s cluster
 
 * Create a kubernetes deployment, service and ingress with the 'fortune' app.
 * Use 'fortune' app Docker image from task 1.
 * Make this deployment accessible from internet.
 * Add DNS name to ingress.
-* Use test environment (K8s cluster) from mentor.
+* Use test environment (K8s/K3s cluster) from mentor.
 
 ----------------------------------------------------
 
@@ -120,4 +120,43 @@ kubectl -n oleg apply -f ./k8s/ingress.yaml
 kubectl -n oleg get ingress
 ```
 
---------------------------------------------------
+
+## Task 3 
+
+## Create stateful application using K8s PV and PVC.
+
+* Find an app that requires some type of persistence: Suggestions: Blog, Task Manager
+* Deploy this on the cluster using persistent storage
+* Specify the PV/PVC size to be 10 Gi or less
+* This CSI-Driver was used for this PV/PVC and cloud connections:
+  https://github.com/hetznercloud/csi-driver/blob/master/README.md
+
+------------------------------------------------------
+
+## Solution
+
+### 1. Rewriting python cgi script
+
+```
+# Add code to script that copy result of `fortune` to specific dir/file and count rows int this file.
+# Mount PV by this path.
+# Row-counter continue increase after pod killing.
+Python cgi script in ./app.py file
+```
+
+### 2. Create PV and PVC in cluster environment 
+
+```
+# Make and apply pv, pvc yaml annotation files
+kubectl -n oleg apply -f ./k8s/pvc/pv.yaml
+kubectl -n oleg apply -f ./k8s/pvc/pvc.yaml
+```
+
+### 3. Apply deployment with stateful app that use pv, pvc
+
+```
+# Apply app deployment, service and ingress in cluster namespace
+kubectl -n oleg apply -f ./k8s/pvc/deploy-pvc.yaml
+kubectl -n oleg apply -f ./k8s/pvc/svc-pvc.yaml
+kubectl -n oleg apply -f ./k8s/pvc/ingress-pvc.yaml
+```

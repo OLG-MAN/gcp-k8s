@@ -3,21 +3,21 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-  name: app-ingress
+  name: app-ingress-pvc
   namespace: oleg
 spec:
   rules:
-  - host: fortune-oleg.kubelab.spainip.es
+  - host: fortune-oleg-pvc.kubelab.spainip.es
     http:
       paths:
       - backend:
           service:
-            name: test-service-cl-ip
+            name: test-service-pvc
             port:
               number: 80
         path: /
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - fortune-oleg.kubelab.spainip.es
-    secretName: tls-app-ingress-ingress
+    - fortune-oleg-pvc.kubelab.spainip.es
+    secretName: tls-app-ingress-pvc-ingress

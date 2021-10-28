@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deploy-pvc
+  labels:
+    app: test-app-pvc
+spec:
+  selector:
+    matchLabels:
+      app: test-app-pvc
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: test-app-pvc
+    spec:
+      containers:
+      - name: test-app-pvc
+        image: olegan/fortune-app:v2.4
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: "/fortune"
+          name: oleg-volume
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+      volumes:
+      - name: oleg-volume
+        persistentVolumeClaim:
+          claimName: oleg-claim

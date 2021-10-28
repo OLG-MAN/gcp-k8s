@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: oleg-claim
+spec:
+  storageClassName: hcloud-volumes
+  volumeName: oleg-volume
+  accessModes:
+    - ReadWriteOnce
+  resources:
+      requests:
+        storage: 3Gi
