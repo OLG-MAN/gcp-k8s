@@ -160,3 +160,61 @@ kubectl -n oleg apply -f ./k8s/pvc/deploy-pvc.yaml
 kubectl -n oleg apply -f ./k8s/pvc/svc-pvc.yaml
 kubectl -n oleg apply -f ./k8s/pvc/ingress-pvc.yaml
 ```
+
+
+## Task 4
+
+## Helm charts.
+
+* Convert stateful app from task 3 into a Helm Chart.
+
+------------------------------------------------------
+
+## Solution
+
+### 0. Installing Helm
+
+```
+# Install  Helm.
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# Check helm 
+helm version
+```
+
+### 1. Create example Helm chart, configure it for my fortune app
+
+```
+# Create folder for Helm chart
+mkdir ./k8s/helm/
+
+# Create helm example chart in ./k8s/helm/ folder
+helm create fortune-helm
+
+# Substituting values, docker image. Rewriting config .yaml files.
+
+# Created Helm chart in .k8s/helm/fortune-helm/ folder.
+```
+
+### 2. Install Helm chart 
+
+```
+# Install fortune-helm helm chart
+helm install fortune-helm ./k8s/helm/fortune-helm --namespace=oleg
+
+# Get output :
+NAME: fortune-helm
+LAST DEPLOYED: Fri Oct 29 14:31:29 2021
+NAMESPACE: oleg
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+
+# Check DNS name from ingress in browser
+# Check Helm list with my deployed chart
+helm list --namespace oleg
+```
+
+---------------------------------------------------------

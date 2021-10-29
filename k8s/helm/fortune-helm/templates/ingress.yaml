@@ -1,0 +1,26 @@
+{{- $fullName := include "fortune-helm.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: {{ $fullName }}
+  namespace: oleg
+spec:
+  rules:
+  - host: fortune-oleg-helm.kubelab.spainip.es
+    http:
+      paths:
+      - backend:
+          service:
+            name: {{ $fullName }}
+            port:
+              number: {{ $svcPort }}
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - fortune-oleg-helm.kubelab.spainip.es
+    secretName: tls-app-ingress-helm-ingress
